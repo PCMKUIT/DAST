@@ -1,3 +1,0 @@
-# (Optional) Python libs if you later extend scripts for parsing
-requests
-lxml
