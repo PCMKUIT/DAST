@@ -27,7 +27,7 @@ docker pull owasp/zap2docker-stable:latest
 
 
 docker run --rm -v "$(pwd)":/zap/wrk/:rw -t owasp/zap2docker-stable:latest \
-zap-full-scan.py -t "$TARGET_URL" -r "/zap/wrk/$(basename "$OUTPUT_HTML")" --self-contained
+zap-full-scan.py -t "$TARGET_URL" -r "/zap/wrk/$OUTPUT_HTML" --self-contained
 
 
 if [[ -f "$OUTPUT_HTML" ]]; then
