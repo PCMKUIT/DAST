@@ -35,8 +35,16 @@ The application can be quickly deployed on your local machine using Docker, maki
         docker-compose up -d
         ```
 
-3.  **Access the Application:** Based on the `docker-compose.yml` file in this repository, the application will be accessible in your browser at:
+3.  **Access the Application:** Based on the `docker-compose.yml` file in this repository, the application will be accessible in your browser and by your DAST tool at:
     > **`http://localhost:8080`**
+
+---
+
+### 💡 Important Note on Networking
+
+If you plan to run your **DAST automation tool inside a separate Docker container** and need that container to access the application, you must use **`host.docker.internal`** instead of `localhost` in your DAST tool's configuration:
+
+* **URL for DAST Tool (inside a container):** `http://host.docker.internal:8080`
 
 ---
 
