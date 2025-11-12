@@ -1,41 +1,30 @@
 name: DAST Scan
 
-
 on:
-push:
-branches: [ main, master ]
-pull_request:
-branches: [ main, master ]
-
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  schedule:
+    - cron: '0 2 * * 1'  # Weekly on Monday 2 AM
 
 jobs:
-zap-scan:
-runs-on: ubuntu-latest
-steps:
-- name: Checkout
-uses: actions/checkout@v4
-
-
-- name: Set TARGET_URL
-run: echo "TARGET_URL=${{ vars.TARGET_URL || secrets.TARGET_URL || 'https://example.com' }}" >> $GITHUB_ENV
-
-
-- name: Run ZAP full scan (docker)
-run: |
-docker run --rm -v "${{ github.workspace }}":/zap/wrk/:rw -t owasp/zap2docker-stable:latest \
-zap-full-scan.py -t "$TARGET_URL" -r "/zap/wrk/report/zap_report.html" --self-contained
-
-
-- name: Upload report artifact
-uses: actions/upload-artifact@v4
-with:
-name: zap-report
-path: report/zap_report.html
-
-
-- name: Create summary (placeholder)
-run: |
-mkdir -p report
-echo "# ZAP Scan Summary" > report/summary_report.md
-echo "date_run: $(date -u '+%Y-%m-%dT%H:%M:%SZ')" >> report/summary_report.md
-echo "target: $TARGET_URL" >> report/summary_report.md
+  zap-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Create report directory
+        run: mkdir -p report
+        
+      - name: Run ZAP scan
+        run: |
+          bash tools/zap_scan.sh "${{ secrets.TARGET_URL || 'http://localhost:3000' }}" report/zap_report.html
+          
+      - name: Upload security report
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-security-report
+          path: report/
+          retention-days: 30
