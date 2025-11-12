@@ -1,0 +1,8 @@
+# General
+.env
+.vscode/
+.DS_Store
+
+
+# Reports
+report/*.html
