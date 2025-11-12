@@ -1,19 +1,23 @@
-# 🧪 DAST Automation Target Example (tudo Application)
+# 🧪 DAST Automation Target Examples
 
-This repository utilizes the code from an external project, **tudo**, to serve as a **vulnerable example application** for our Dynamic Application Security Testing (DAST) automation tool.
+This repository includes configurations and source code for several well-known **vulnerable example applications**. These are used to provide diverse and challenging targets for scanning and validation by our Dynamic Application Security Testing (DAST) automation tool.
 
 ---
 
-### 🌐 Application Source
+### 🌐 Application Sources
 
-* **Original Repository:** The core application code is borrowed from the following public repository:
-    > **[https://github.com/bmdyy/tudo](https://github.com/bmdyy/tudo)**
+The specific application currently being targeted (e.g., using the provided `docker-compose.yml`) may vary, but the base code for these examples is sourced from the following projects:
 
-* **Purpose:** The application is included here strictly for **educational and testing purposes**—specifically, to provide a known-vulnerable target for our DAST automation scripts to scan and validate.
+* **tudo** (Current configuration target example)
+    > Source: **[https://github.com/bmdyy/tudo](https://github.com/bmdyy/tudo)**
+
+* **Other Potential Targets:** DVWA, OWASP Juice Shop, bWAPP, etc., are also examples of vulnerable applications intended for use with this DAST automation framework.
+
+* **Purpose:** The example applications are included here strictly for **educational and testing purposes**—specifically, to provide known-vulnerable targets for our DAST automation scripts to scan and validate.
 
 ### 🚀 Running Locally (For Windows Users)
 
-The application can be quickly deployed on your local machine using Docker, making it an ideal, isolated environment for testing your DAST tool.
+The current application (based on the provided **`docker-compose.yml`** file) can be quickly deployed on your local machine using Docker, making it an ideal, isolated environment for testing your DAST tool.
 
 #### Prerequisites
 
