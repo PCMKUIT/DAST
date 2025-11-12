@@ -18,6 +18,7 @@ The application can be quickly deployed on your local machine using Docker, maki
 #### Prerequisites
 
 * **Docker Desktop** must be installed and running on your Windows system.
+* This process uses the provided **`docker-compose.yml`** file in the root of this repository.
 
 #### Deployment Steps
 
@@ -34,7 +35,8 @@ The application can be quickly deployed on your local machine using Docker, maki
         docker-compose up -d
         ```
 
-3.  The application will be accessible at `http://localhost:<PORT>` (Check your `docker-compose.yml` file for the exact port number).
+3.  **Access the Application:** Based on the `docker-compose.yml` file in this repository, the application will be accessible in your browser at:
+    > **`http://localhost:8080`**
 
 ---
 
