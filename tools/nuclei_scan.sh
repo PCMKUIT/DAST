@@ -1,10 +1,10 @@
 #!/bin/bash
 
 TARGET=$1
-OUTPUT=${2:-report/nuclei_scan.html}
+OUTPUT=${2:-report/nuclei_report.json}
 
 if [ -z "$TARGET" ]; then
-    echo "Usage: $0 <TARGET_URL> [OUTPUT_HTML_FILE]"
+    echo "Usage: $0 <TARGET_URL> [OUTPUT_JSON_FILE]"
     exit 2
 fi
 
@@ -15,39 +15,41 @@ echo "Output: $OUTPUT"
 mkdir -p "$(dirname "$OUTPUT")"
 mkdir -p "nuclei-templates"
 
-# Pull latest Nuclei image
+# Pull latest Nuclei Docker image
 echo "Pulling Nuclei Docker image..."
 docker pull projectdiscovery/nuclei:latest
 
-# Update templates chỉ khi cần (1 lần đầu)
+# Update templates if needed
 if [ ! -f "nuclei-templates/.updated" ]; then
     echo "First time setup: Updating Nuclei templates..."
     docker run --rm \
       -v "$(pwd)/nuclei-templates:/root/nuclei-templates" \
       projectdiscovery/nuclei:latest \
-      -update-templates
+      -ut
     touch "nuclei-templates/.updated"
     echo "Templates updated successfully!"
 else
     echo "Using cached templates"
 fi
 
-# Run Nuclei scan với HTML output
-echo "Running Nuclei scan with HTML report..."
+# Run Nuclei scan (JSON output)
+echo "Running Nuclei scan..."
 docker run --rm \
   -v "$(pwd)":/nuclei \
   -v "$(pwd)/nuclei-templates:/root/nuclei-templates" \
   projectdiscovery/nuclei:latest \
   -u "$TARGET" \
   -o "/nuclei/$OUTPUT" \
-  -me "/nuclei/$OUTPUT" \
-  -severity high,critical \
-  -timeout 120
+  -json \
+  -severity medium,high,critical \
+  -timeout 120 \
+  -stats
 
-if [ -f "$OUTPUT" ]; then
+# Check result
+if [ -s "$OUTPUT" ]; then
     echo "Nuclei scan completed successfully!"
-    echo "HTML Report saved at: $OUTPUT"
+    echo "JSON Report saved at: $OUTPUT"
 else
-    echo "Scan finished but output file not found!"
+    echo "Scan finished but output file not found or empty!"
     exit 1
 fi
